@@ -1,11 +1,16 @@
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import auth from "../../firebase.init";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [consfirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(auth);
 
   const handelEmailBlur = (e) => {
     setEmail(e.target.value);
@@ -21,6 +26,12 @@ const SignUp = () => {
 
   const handelCreateUser = (e) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      return;
+    }
+
+    createUserWithEmailAndPassword(email, password);
   };
 
   return (
@@ -73,6 +84,7 @@ const SignUp = () => {
         </div>
         <div className=" flex justify-center mt-9 px-6">
           <input
+            onClick={() => createUserWithEmailAndPassword()}
             className="bg-orange-300 w-full py-2 text-semibold cursor-pointer"
             type="submit"
             value="Sign Up"
