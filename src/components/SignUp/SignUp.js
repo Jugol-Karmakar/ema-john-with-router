@@ -1,15 +1,16 @@
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const [createUserWithEmailAndPassword] =
+  const navigate = useNavigate();
+
+  const [createUserWithEmailAndPassword, user, error] =
     useCreateUserWithEmailAndPassword(auth);
 
   const handelEmailBlur = (e) => {
@@ -24,6 +25,9 @@ const SignUp = () => {
     setConfirmPassword(e.target.value);
   };
 
+  if (user) {
+    navigate("/shop");
+  }
   const handelCreateUser = (e) => {
     e.preventDefault();
 
@@ -81,6 +85,7 @@ const SignUp = () => {
             id=""
             required
           />
+          <p>{error}</p>
         </div>
         <div className=" flex justify-center mt-9 px-6">
           <input

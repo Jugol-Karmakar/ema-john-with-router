@@ -1,17 +1,44 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const [signInWithEmailAndPassword, user] =
+    useSignInWithEmailAndPassword(auth);
+
+  const navigate = useNavigate();
+
+  const handelEmailBlur = (e) => {
+    setEmail(e.target.value);
+  };
+  const handelPasswordBlur = (e) => {
+    setPassword(e.target.value);
+  };
+
+  if (user) {
+    navigate("/shop");
+  }
+
+  const handelLoginUser = (e) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(email, password);
+  };
   return (
     <div className="min-h-full w-80 mx-auto border-2 shadow-md  mt-10 rounded-lg">
       <h1 className="text-3xl font-semibold text text-center py-3">Login</h1>
 
-      <form>
+      <form onSubmit={handelLoginUser}>
         <div className="my-3 mx-6">
           <label className="block pb-1" htmlFor="email">
             Email
           </label>
           <input
+            onBlur={handelEmailBlur}
             className="py-1 px-2 outline-none rounded-md border-grey-400 border  w-full"
             type="email"
             name="email"
@@ -24,6 +51,7 @@ const Login = () => {
             Password
           </label>
           <input
+            onBlur={handelPasswordBlur}
             className="py-1 px-2 outline-none rounded-md border-grey-400 
             border 
              w-full"
@@ -33,8 +61,10 @@ const Login = () => {
             required
           />
         </div>
+
         <div className=" flex justify-center mt-9 px-6">
           <input
+            onClick={() => signInWithEmailAndPassword()}
             className="bg-orange-300 w-full py-2 text-semibold cursor-pointer"
             type="submit"
             value="Login"
