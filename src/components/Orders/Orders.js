@@ -32,9 +32,9 @@ const Orders = () => {
         <Cart cart={cart}>
           <button
             className="bg-orange-500 px-5 rounded py-2 mt-5 text-white"
-            onClick={() => navigate("/inventory")}
+            onClick={() => navigate("/shipment")}
           >
-            Proceed Checkout{" "}
+            Proceed Shipping{" "}
           </button>
         </Cart>
       </div>

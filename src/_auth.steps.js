@@ -5,5 +5,8 @@
  * field handeler and submit handeler
  * npm install firebase hooks
  * usecreateWithemailAndPassword in react firebase hooks
- *
+ * if user is created redirct to expect page
+ * useSignInEmailAndPassword for sign in
+ * create requireAuth Component ==>
+ * in route protect by using require auth
  */
